@@ -1,9 +1,7 @@
 import simpleLightbox from 'simplelightbox';
-
 import 'simplelightbox/dist/simple-lightbox.min.css';
-// Add imports above this line
 import { galleryItems } from './gallery-items';
-// Change code below this line
+
 const gallery = document.querySelector('.gallery');
 const cardMarkup = galleryItems
     .map(
@@ -21,34 +19,11 @@ const cardMarkup = galleryItems
 
     gallery.insertAdjacentHTML("beforeend", cardMarkup);
 
-    gallery.addEventListener('click', onImgClick);
-
-    function onImgClick(event) {
-        event.preventDefault();
-        if (event.target.nodeName !== "IMG") {
-            return;
-        }
-
-        const instance = basicLightbox.create(
-            `<img src="${event.target.dataset.source}">`,
-            {
-                onShow: (instance) => window.addEventListener('keydown', closeEscape),
-                onClose: (instance) => window.removeEventListener('keydown', closeEscape),
-            }
-        );
-        instance.show();
-
-        function closeEscape(event) {
-            if (event.code === 'Escape') {
-                instance.close(); 
-            }
-        }
-    }   
+    const lightbox = new simpleLightbox('.gallery__link', {
+        captionsData: 'alt',
+        captionDelay: 250,
+    });
 
 console.log(galleryItems);
 
 
-//const galleryItemsStyle = document.querySelectorAll('.gallery__item');
-//galleryItemsStyle.forEach((item) => {
-//    item.style.listStyleType ='none';
-//});
